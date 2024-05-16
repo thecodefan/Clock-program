@@ -8,8 +8,8 @@ function updateClock(){
     const seconds=now.getSeconds().toString().padStart(2,0);
 
     const meridium=hours>=12 ?"PM":"AM"
-    hours=hours % 12 || 12;
-    hours=hours.toString().padStart(2,0);
+    hours=hours % 12 || 12; // if it's dividuslbe by zero, use "or" 12
+    hours=hours.toString().padStart(2,0); //since hours is redefined, you need to repad it
 
     const timeString=`${hours}:${minutes}:${seconds} ${meridium}`;
     document.getElementById("clock").textContent=timeString;
