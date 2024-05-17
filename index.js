@@ -1,19 +1,32 @@
-//digital clock
+const militaryTimeButton = document.getElementById("militaryTime");
+let isMilitaryTime = false;
 
-function updateClock(){
+militaryTimeButton.addEventListener("click", () => {
+    isMilitaryTime = !isMilitaryTime;
+    militaryTimeButton.textContent = isMilitaryTime ? "Standard Time" : "Military Time";
+    updateClock();
+});
 
-    const now=new Date();
-    let hours= now.getHours().toString().padStart(2,0); //first 2 chars, pad with 0 , this adds numbers on digits
-    const minutes=now.getMinutes().toString().padStart(2,0);
-    const seconds=now.getSeconds().toString().padStart(2,0);
-
-    const meridium=hours>=12 ?"PM":"AM"
-    hours=hours % 12 || 12; // if it's dividuslbe by zero, use "or" 12
-    hours=hours.toString().padStart(2,0); //since hours is redefined, you need to repad it
-
-    const timeString=`${hours}:${minutes}:${seconds} ${meridium}`;
-    document.getElementById("clock").textContent=timeString;
+function updateClock() {
+    const now = new Date();
+    let hours = now.getHours();
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    
+    let timeString;
+    
+    if (isMilitaryTime) {
+        hours = hours.toString().padStart(2, '0');
+        timeString = `${hours}:${minutes}:${seconds}`;
+    } else {
+        const meridiem = hours >= 12 ? "PM" : "AM";
+        hours = hours % 12 || 12; // Convert 24-hour format to 12-hour format
+        hours = hours.toString().padStart(2, '0');
+        timeString = `${hours}:${minutes}:${seconds} ${meridiem}`;
+    }
+    
+    document.getElementById("clock").textContent = timeString;
 }
 
 updateClock();
-setInterval(updateClock,1000); //update the clock every 1000 milliseconds
+setInterval(updateClock, 1000); // Update the clock every 1000 milliseconds
